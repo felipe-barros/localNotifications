@@ -40,6 +40,11 @@ function HomeScreen(): JSX.Element {
     // Request permissions (required for iOS)
     await notifee.requestPermission();
 
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+
     // Display a notification
     await notifee.displayNotification({
       title: 'You have no life!',
@@ -47,12 +52,33 @@ function HomeScreen(): JSX.Element {
       ios: {
         categoryId: 'potion',
       },
+      android: {
+        channelId,
+        // pressAction is needed if you want the notification to open the app when pressed
+        pressAction: {
+          id: 'default',
+        },
+        actions: [
+          {
+            title: 'Apply Potion',
+            pressAction: {
+              id: 'apply-potion',
+            },
+          },
+        ],
+      },
     });
   }
 
   async function onDisplayNotification2() {
     // Request permissions (required for iOS)
     await notifee.requestPermission();
+
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
 
     // Display a notification
     await notifee.displayNotification({
@@ -63,6 +89,21 @@ function HomeScreen(): JSX.Element {
         attachments: [
           {
             url: 'https://cdn.britannica.com/45/125545-050-B705597E/Coyote.jpg',
+          },
+        ],
+      },
+      android: {
+        channelId,
+        // pressAction is needed if you want the notification to open the app when pressed
+        pressAction: {
+          id: 'default',
+        },
+        actions: [
+          {
+            title: 'Check battle',
+            pressAction: {
+              id: 'default',
+            },
           },
         ],
       },
