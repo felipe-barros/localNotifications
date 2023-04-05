@@ -98,6 +98,8 @@ function HomeScreen(): JSX.Element {
         pressAction: {
           id: 'default',
         },
+        largeIcon:
+          'https://cdn.britannica.com/45/125545-050-B705597E/Coyote.jpg',
         actions: [
           {
             title: 'Check battle',
