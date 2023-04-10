@@ -1,7 +1,7 @@
-import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './HomeScreen.styles';
-import notifee from '@notifee/react-native';
+import notifee, { EventType } from '@notifee/react-native';
 
 function HomeScreen(): JSX.Element {
   async function onCreateCategories() {
@@ -111,6 +111,17 @@ function HomeScreen(): JSX.Element {
       },
     });
   }
+
+  useEffect(() => {
+    const unsubscribe = notifee.onForegroundEvent(async ({ type, detail }) => {
+      if (type === EventType.DISMISSED) {
+        console.log('User dismissed the notification.', detail.pressAction.id);
+      }
+      await notifee.cancelDisplayedNotification(detail.notification.id);
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <View style={styles.container}>
